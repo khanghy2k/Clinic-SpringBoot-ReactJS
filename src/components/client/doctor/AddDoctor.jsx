@@ -19,6 +19,7 @@ export default function AddDoctor() {
     soDienThoai: "",
     ghiChu: "",
   });
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
@@ -40,12 +41,44 @@ export default function AddDoctor() {
       ...doctor,
       [e.target.name]: e.target.value,
     });
+    setError({
+      ...error,
+      [e.target.name]: "",
+    });
   };
   const handleFileChange = (e) => {
     setDoctor({
       ...doctor,
       photos: e.target.files[0],
     });
+  };
+  const validateForm = () => {
+    const newError = {};
+
+    const requiredFields = [
+      "photos",
+      "trangThaiHoatDong",
+      "tenBacSi",
+      "diaChi",
+      "ngaySinh",
+      "trinhDo",
+      "chuyenKhoa",
+      "email",
+      "gioiTinh",
+      "soDienThoai",
+      "ghiChu",
+    ];
+    requiredFields.forEach((field) => {
+      if (!doctor[field]) {
+        newError[field] = "This field is required";
+      }
+    });
+    const emailPattern = /^\S+@\S+\.\S+$/;
+    if (doctor.email && !emailPattern.test(doctor.email)) {
+      newError.email = "Invalid email";
+    }
+    setError(newError);
+    return Object.keys(newError).length === 0;
   };
 
   const formData = new FormData();
@@ -61,10 +94,11 @@ export default function AddDoctor() {
   formData.append("soDienThoai", doctor.soDienThoai);
   formData.append("ghiChu", doctor.ghiChu);
 
-  console.log([...formData]);
-
   const AddDoctor = async (e) => {
     e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
     try {
       await axios.post("http://localhost:8080/api/bacsi", formData, {
         headers: {
@@ -114,7 +148,9 @@ export default function AddDoctor() {
                           Tên bác sĩ <span className="text-danger">*</span>
                         </label>
                         <input
-                          className="form-control"
+                          className={`form-control ${
+                            error.tenBacSi ? "is-invalid" : ""
+                          }`}
                           type="text"
                           value={tenBacSi}
                           onChange={(e) => onChange(e)}
@@ -128,7 +164,9 @@ export default function AddDoctor() {
                           Chuyên khoa <span className="text-danger">*</span>
                         </label>
                         <input
-                          className="form-control"
+                          className={`form-control ${
+                            error.chuyenKhoa ? "is-invalid" : ""
+                          }`}
                           type="text"
                           value={chuyenKhoa}
                           onChange={(e) => onChange(e)}
@@ -142,7 +180,9 @@ export default function AddDoctor() {
                           Ghi Chú <span className="text-danger">*</span>
                         </label>
                         <input
-                          className="form-control"
+                          className={`form-control ${
+                            error.ghiChu ? "is-invalid" : ""
+                          }`}
                           type="text"
                           onChange={(e) => onChange(e)}
                           name="ghiChu"
@@ -159,7 +199,9 @@ export default function AddDoctor() {
                           onChange={(e) => onChange(e)}
                           value={trinhDo}
                           name="trinhDo"
-                          className="form-control"
+                          className={`form-control ${
+                            error.trinhDo ? "is-invalid" : ""
+                          }`}
                           type="text"
                         />
                       </div>
@@ -173,7 +215,9 @@ export default function AddDoctor() {
                           onChange={(e) => onChange(e)}
                           value={email}
                           name="email"
-                          className="form-control"
+                          className={`form-control ${
+                            error.email ? "is-invalid" : ""
+                          }`}
                           type="email"
                         />
                       </div>
@@ -187,7 +231,9 @@ export default function AddDoctor() {
                             value={ngaySinh}
                             type="date"
                             onChange={(e) => onChange(e)}
-                            className="form-control"
+                            className={`form-control ${
+                              error.ngaySinh ? "is-invalid" : ""
+                            }`}
                           />
                         </div>
                       </div>
@@ -201,7 +247,9 @@ export default function AddDoctor() {
                               type="radio"
                               name="gioiTinh"
                               onChange={(e) => onChange(e)}
-                              className="form-check-input"
+                              className={`form-check ${
+                                error.gioiTinh ? "is-invalid" : ""
+                              }`}
                               value="N"
                             />
                             Nam
@@ -213,7 +261,9 @@ export default function AddDoctor() {
                               onChange={(e) => onChange(e)}
                               type="radio"
                               name="gioiTinh"
-                              className="form-check-input"
+                              className={`form-check ${
+                                error.gioiTinh ? "is-invalid" : ""
+                              }`}
                               value="F"
                             />
                             Nữ
@@ -231,7 +281,9 @@ export default function AddDoctor() {
                               value={diaChi}
                               name="diaChi"
                               type="text"
-                              className="form-control "
+                              className={`form-control ${
+                                error.diaChi ? "is-invalid" : ""
+                              }`}
                             />
                           </div>
                         </div>
@@ -244,7 +296,9 @@ export default function AddDoctor() {
                           onChange={(e) => onChange(e)}
                           value={soDienThoai}
                           name="soDienThoai"
-                          className="form-control"
+                          className={`form-control ${
+                            error.soDienThoai ? "is-invalid" : ""
+                          }`}
                           type="text"
                         />
                       </div>
@@ -261,7 +315,9 @@ export default function AddDoctor() {
                               type="file"
                               name="file"
                               onChange={(e) => handleFileChange(e)}
-                              className="form-control"
+                              className={`form-control ${
+                                error.photos ? "is-invalid" : ""
+                              }`}
                               nullable="true"
                             />
                           </div>
@@ -273,7 +329,9 @@ export default function AddDoctor() {
                     <label className="display-block">Trạng thái</label>
                     <div className="form-check form-check-inline">
                       <input
-                        className="form-check-input"
+                        className={`form-check ${
+                          error.trangThaiHoatDong ? "is-invalid" : ""
+                        }`}
                         type="radio"
                         name="trangThaiHoatDong"
                         onChange={(e) => onChange(e)}
@@ -289,7 +347,9 @@ export default function AddDoctor() {
                     </div>
                     <div className="form-check form-check-inline">
                       <input
-                        className="form-check-input"
+                        className={`form-check ${
+                          error.trangThaiHoatDong ? "is-invalid" : ""
+                        }`}
                         type="radio"
                         name="trangThaiHoatDong"
                         onChange={(e) => onChange(e)}
@@ -305,10 +365,7 @@ export default function AddDoctor() {
                     </div>
                   </div>
                   <div className="m-t-20 text-center">
-                    <button
-                      type="sumbit"
-                      className="btn btn-secondary submit-btn"
-                    >
+                    <button type="sumbit" className="btn btn-dark submit-btn">
                       Thêm Bác Sĩ
                     </button>
                   </div>

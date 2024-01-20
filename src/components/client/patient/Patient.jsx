@@ -59,7 +59,7 @@ export default function Patient() {
               <div className="col-sm-8 col-9 text-right m-b-20">
                 <a
                   href="/addpatient"
-                  className="btn btn btn-secondary btn-rounded float-right"
+                  className="btn btn btn-dark btn-rounded float-right"
                 >
                   <i className="fa fa-plus" /> Thêm bệnh nhân
                 </a>

@@ -3,7 +3,6 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
 
 export default function Doctor() {
   const [doctors, setDoctors] = useState([]);
@@ -37,7 +36,6 @@ export default function Doctor() {
         },
       });
       toast.success("Xóa bác sĩ thành công");
-      setDoctors(doctors.filter((doctor) => doctor.maBacSi !== maBacsi));
       loadDoctors();
     } catch (err) {
       toast.error("Xóa bác sĩ thất bại");
@@ -58,7 +56,7 @@ export default function Doctor() {
                 <div className="col-sm-8 col-9 text-right m-b-20">
                   <a
                     href="/add-doctor"
-                    className="btn btn-secondary btn-rounded float-right"
+                    className="btn btn-dark btn-rounded float-right "
                   >
                     <i className="fa fa-plus" /> Thêm bác sĩ
                   </a>
@@ -102,51 +100,13 @@ export default function Doctor() {
                             className="dropdown-item"
                             data-toggle="modal"
                             data-target="#deleteDoctorModal"
+                            onClick={() => handleDelete(doctor.maBacSi)}
                           >
                             <i className="fa fa-trash-o m-r-5"></i>Delete
                           </button>
                         </div>
                       </div>
-                      <div
-                        className="modal fade"
-                        id="deleteDoctorModal"
-                        tabIndex="-1"
-                        role="dialog"
-                        aria-labelledby="deleteDoctorModalLabel"
-                        aria-hidden="true"
-                      >
-                        <div
-                          className="modal-dialog modal-dialog-centered"
-                          role="document"
-                        >
-                          <div className="modal-content">
-                            <div className="modal-body text-center">
-                              <img
-                                src="assets/img/sent.png"
-                                alt=""
-                                width={50}
-                                height={46}
-                              />
-                              <h3>Bạn có chắc chắn muốn xóa bác sĩ này?</h3>
-                              <div className="m-t-20">
-                                <button
-                                  className="btn btn-white"
-                                  data-dismiss="modal"
-                                >
-                                  Close
-                                </button>
-                                <button
-                                  className="btn btn-danger"
-                                  onClick={() => handleDelete(doctor.maBacSi)}
-                                  data-dismiss="modal"
-                                >
-                                  <i className="fa fa-trash-o m-r-5"></i>Delete
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+
                       <h4 className="doctor-name text-ellipsis">
                         <a href="profile.html">{doctor.tenBacSi}</a>
                       </h4>

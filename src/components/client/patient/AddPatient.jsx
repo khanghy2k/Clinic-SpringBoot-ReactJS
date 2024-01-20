@@ -161,7 +161,7 @@ export default function AddPatient() {
                     <div className="m-t-20 text-center">
                       <button
                         type="sumbit"
-                        className="btn btn-secondary sumbit-btn "
+                        className="btn btn-dark sumbit-btn "
                       >
                         Thêm bệnh nhân
                       </button>

@@ -13,7 +13,7 @@ export default function Header() {
   return (
     <div className="header">
       <div className="header-left">
-        <a href="index-2.html" className="logo">
+        <a href="/home" className="logo">
           <img src="assets/img/logo.png" width={35} height={35} alt="" />
           <span>Preclinic</span>
         </a>
@@ -33,7 +33,7 @@ export default function Header() {
           >
             <span className="user-img">
               <img
-                className="rounded-circle"
+                className="rounded-circle relative top-1.5"
                 src="assets/img/user.jpg"
                 width={24}
                 alt="Admin"

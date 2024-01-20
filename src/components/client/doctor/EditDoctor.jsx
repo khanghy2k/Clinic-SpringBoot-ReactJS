@@ -30,7 +30,6 @@ export default function EditDoctor() {
 
   const navigate = useNavigate();
   const { id } = useParams();
-  const formData = new FormData();
 
   const {
     photos,
@@ -59,7 +58,7 @@ export default function EditDoctor() {
       photos: e.target.files[0],
     });
   };
-
+  const formData = new FormData();
   formData.append("file", doctor.photos);
   formData.append("trangThaiHoatDong", doctor.trangThaiHoatDong);
   formData.append("tenBacSi", doctor.tenBacSi);
@@ -96,6 +95,7 @@ export default function EditDoctor() {
           },
         });
         navigate("/doctor");
+        toast.success("Cập nhật bác sĩ thành công");
       } else {
         // Add new doctor
         await axios.post(`http://localhost:8080/api/bacsi`, formData, {
